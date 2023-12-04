@@ -8,7 +8,7 @@ class User implements IUser {
   @override
   final String id;
 
-  User({required this.email, required this.id});
+  const User({required this.email, required this.id});
 
   factory User.fromFirebaseAuthUser(
     firebase_auth.User firebaseUser,

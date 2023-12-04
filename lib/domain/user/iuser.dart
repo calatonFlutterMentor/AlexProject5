@@ -1,4 +1,4 @@
- class IUser {
+ abstract interface class IUser {
   final String email;
   final String id;
 

@@ -8,7 +8,7 @@ import '../login/login.dart';
 import '../login/login_view_model.dart';
 
 class ScreenFactory {
-  static Widget buildInitialScreen() {
+  static Widget buildHomeScreen() {
     return ChangeNotifierProvider<HomeViewModel>(
       create: (context) => HomeViewModel(
           navigationUtil: context.read<INavigationUtil>(),

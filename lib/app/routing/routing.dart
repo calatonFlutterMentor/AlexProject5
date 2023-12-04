@@ -31,7 +31,7 @@ class Routing {
   static PageRoute _buildHomeScreen(RouteSettings settings) {
     return MaterialPageRoute(
         builder: (context) {
-          return ScreenFactory.buildInitialScreen();
+          return ScreenFactory.buildHomeScreen();
         },
         settings: settings);
   }

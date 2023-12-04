@@ -1,10 +1,12 @@
+import 'package:calaton_firebase_auth/data/model/user.dart' as prefix;
 import 'package:firebase_auth/firebase_auth.dart';
 
 import '../../domain/user/iuser.dart';
 import '../../domain/user/iuser_repository.dart';
 
+
 class UserRepository implements IUserRepository {
-  FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
   UserRepository();
 
@@ -18,7 +20,7 @@ class UserRepository implements IUserRepository {
     try {
       var auth = await _firebaseAuth.createUserWithEmailAndPassword(
           email: email, password: password);
-      return IUser(email: auth.user!.email!, id: auth.user!.uid);
+      return prefix.User(email:'kek', id:"007");
     } catch (e) {
       print(e.toString());
     }
@@ -27,7 +29,11 @@ class UserRepository implements IUserRepository {
   @override
   Future<bool> isSignedIn() async {
     var currentUser = _firebaseAuth.currentUser;
-    if (currentUser!.uid.isNotEmpty) {
+    if (currentUser == null) {
+      print('user is null');
+      return false;
+    }
+    if (currentUser.uid.isNotEmpty) {
       return true;
     } else {
       return false;
@@ -36,22 +42,23 @@ class UserRepository implements IUserRepository {
 
   @override
   Future<void> verifyPhoneNumber(String phoneNumber) async {
-  await _firebaseAuth.verifyPhoneNumber(
-     phoneNumber: phoneNumber,
-     verificationCompleted: (PhoneAuthCredential credential) async {
-       await _firebaseAuth.signInWithCredential(credential);
-     },
-     verificationFailed: (FirebaseAuthException e) {
-       if (e.code == 'invalid-phone-number') {
-         print('The provided phone number is not valid.');
-       }
-     },
-     codeSent: (String verificationId, int? resendToken) async {
-       String smsCode = '123456';
-       PhoneAuthCredential credential = PhoneAuthProvider.credential(verificationId: verificationId, smsCode: smsCode);
-       await _firebaseAuth.signInWithCredential(credential);
-     },
-     codeAutoRetrievalTimeout: (String verificationId) {},
-   );
+    await _firebaseAuth.verifyPhoneNumber(
+      phoneNumber: phoneNumber,
+      verificationCompleted: (PhoneAuthCredential credential) async {
+        await _firebaseAuth.signInWithCredential(credential);
+      },
+      verificationFailed: (FirebaseAuthException e) {
+        if (e.code == 'invalid-phone-number') {
+          print('The provided phone number is not valid.');
+        }
+      },
+      codeSent: (String verificationId, int? resendToken) async {
+        String smsCode = '123456';
+        PhoneAuthCredential credential = PhoneAuthProvider.credential(
+            verificationId: verificationId, smsCode: smsCode);
+        await _firebaseAuth.signInWithCredential(credential);
+      },
+      codeAutoRetrievalTimeout: (String verificationId) {},
+    );
   }
 }

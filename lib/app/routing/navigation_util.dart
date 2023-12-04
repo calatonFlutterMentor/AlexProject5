@@ -29,7 +29,8 @@ class NavigationUtil implements INavigationUtil {
 
   @override
   void navigateBackUntilNamed(String named) {
-
+    //todo check
+    return navigatorKey.currentState!.popUntil((route) => false);
   }
 
   @override
