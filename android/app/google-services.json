@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "416115488340",
+    "project_id": "calaton-auth",
+    "storage_bucket": "calaton-auth.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:416115488340:android:fba90c99069384f63e9fc1",
+        "android_client_info": {
+          "package_name": "com.example.calaton_firebase_auth"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCMXjaxDejMqIE2OM-9o3VEzJJGRRMKXDc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
