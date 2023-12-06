@@ -29,12 +29,19 @@ class LoginViewModel extends BaseChangeNotifier {
     _phoneNumber = value;
   }
 
-  Future<void> onLogInButtonPressed() async {
+  Future<void> onLoginViaEmailPressed() async {
     startLoading();
     IUser? user = await _userRepository.singUp(_emailValue, _passwordValue);
+    stopLoading();
+  }
+
+   Future<void> onLoginViaPhonePressed() async {
+    startLoading();
     if (_phoneNumber.isNotEmpty) {
       await _userRepository.verifyPhoneNumber(_phoneNumber);
     }
     stopLoading();
   }
+
+
 }

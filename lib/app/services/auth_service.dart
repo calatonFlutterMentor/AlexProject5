@@ -7,36 +7,29 @@ enum UserAuthState { signedOut, loggedIn }
 class AuthService {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
+  final StreamController<UserAuthState> _streamController =
+      StreamController.broadcast();
+  StreamSubscription? _subscription;
 
-  StreamController<UserAuthState> get userAuthStateStreamController =>
-      _userAuthStateStreamController;
-  final StreamController<UserAuthState> _userAuthStateStreamController =
-  StreamController.broadcast();
-  StreamSubscription<UserAuthState> get userAuthStateStreamSubscription =>
-      _userAuthStateStreamSubscription;
-  late StreamSubscription<UserAuthState> _userAuthStateStreamSubscription;
-
-  Stream<UserAuthState> authState() async* {
-   // _userAuthStateStreamController.close();
-    // todo subscriptions & disposes
+  Stream<UserAuthState> authState() {
     Stream<UserAuthState> stream = _firebaseAuth.authStateChanges().map((user) {
       if (user == null) {
-       return UserAuthState.signedOut;
+        return UserAuthState.signedOut;
       } else {
-       return UserAuthState.loggedIn;
+        return UserAuthState.loggedIn;
       }
     });
-    _userAuthStateStreamSubscription = stream.listen((event) {
-      _userAuthStateStreamController.add(event);
+    _subscription = stream.listen((event) {
+      _streamController.add(event);
     });
-    yield* _userAuthStateStreamController.stream;
-    _userAuthStateStreamSubscription.cancel();
+    return _streamController.stream;
   }
-  void closeStreamController(){
-    _userAuthStateStreamController.close();
-    print(_userAuthStateStreamController.isClosed);
+
+  void closeStreamController() {
+    _streamController.close();
   }
-  dynamic getUser() {
-    return _firebaseAuth.currentUser;
+
+  void cancelSubscription() {
+    _subscription?.cancel();
   }
 }

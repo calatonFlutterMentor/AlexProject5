@@ -19,28 +19,10 @@ class HomeViewModel extends BaseChangeNotifier {
         _authService = authService,
         _userRepository = userRepository;
 
-  StreamSubscription<UserAuthState>? _authSubscription;
-
   Future<void> onLogOutButtonPressed() async {
-    print('onLogOutButtonPressed');
     await _userRepository.logOut();
-    notifyListeners();
-   dispose();
+    // dispose викликається сам по собі, коли його викликаєш ти - то триггіриш розірвання котракту з скріном та підкапотні еррори
+    // ти можеш його овверрайтити, але викликатися він повинен системою
+    // dispose();
   }
-  @override
-  void dispose()  {
-    _authSubscription?.cancel();
-    _authService.closeStreamController();
-    super.dispose();
-  }
-// Future<bool> isSignedIn() async {
-//   print('isSignedIn ran');
-//   final bool isSignedIn = await _userRepository.isSignedIn();
-//   print('isSignedIn: $isSignedIn');
-//   if (isSignedIn == true) {
-//     return true;
-//   } else {
-//     return false;
-//   }
-// }
 }

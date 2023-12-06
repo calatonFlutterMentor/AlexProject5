@@ -7,10 +7,12 @@ class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key, required this.viewModel});
 
   final LoginViewModel viewModel;
+
   @override
   Widget build(BuildContext context) {
     final formKeyEmail = GlobalKey<FormState>();
     final formKeyPassword = GlobalKey<FormState>();
+    final formKeyPhone = GlobalKey<FormState>();
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -34,7 +36,7 @@ class LoginScreen extends StatelessWidget {
                   child: Form(
                     autovalidateMode: AutovalidateMode.onUserInteraction,
                     key: formKeyEmail,
-                    child:  InputField(
+                    child: InputField(
                       hintText: "email",
                       errorMassage: "Enter correct email",
                       onValueChanged: viewModel.updateEmailValue,
@@ -46,7 +48,7 @@ class LoginScreen extends StatelessWidget {
                   child: Form(
                     key: formKeyPassword,
                     autovalidateMode: AutovalidateMode.onUserInteraction,
-                    child:  InputField(
+                    child: InputField(
                       hintText: "password",
                       errorMassage: "Enter correct password",
                       onValueChanged: viewModel.updatePasswordValue,
@@ -57,8 +59,8 @@ class LoginScreen extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(vertical: 10),
                   child: Form(
                     autovalidateMode: AutovalidateMode.onUserInteraction,
-                    key: null,
-                    child:  InputField(
+                    key: formKeyPhone,
+                    child: InputField(
                       hintText: "phone",
                       errorMassage: "Enter correct phone",
                       onValueChanged: viewModel.updatePhone,
@@ -66,13 +68,23 @@ class LoginScreen extends StatelessWidget {
                   ),
                 ),
                 MainButton(
-                  text: "Sing in",
+                  text: "Login via email password",
                   onPressedFunction: () async {
-                    final validateEmail = formKeyEmail.currentState!.validate();
-                    final validatePassword =
-                    formKeyPassword.currentState!.validate();
-                    if (validateEmail && validatePassword) {
-                      viewModel.onLogInButtonPressed();
+                    final isEmailValid = formKeyEmail.currentState!.validate();
+                    final isPasswordValid =
+                        formKeyPassword.currentState!.validate();
+                    if (isEmailValid && isPasswordValid) {
+                      viewModel.onLoginViaEmailPressed();
+                    }
+                  },
+                ),
+                const SizedBox(height: 24),
+                MainButton(
+                  text: "Login via phone",
+                  onPressedFunction: () async {
+                    final isPhoneValid = formKeyPhone.currentState!.validate();
+                    if (isPhoneValid) {
+                      viewModel.onLoginViaPhonePressed();
                     }
                   },
                 ),
