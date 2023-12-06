@@ -26,19 +26,19 @@ class UserRepository implements IUserRepository {
     }
   }
 
-  @override
-  Future<bool> isSignedIn() async {
-    var currentUser = _firebaseAuth.currentUser;
-    if (currentUser == null) {
-      print('user is null');
-      return false;
-    }
-    if (currentUser.uid.isNotEmpty) {
-      return true;
-    } else {
-      return false;
-    }
-  }
+  // @override
+  // Future<bool> isSignedIn() async {
+  //   var currentUser = _firebaseAuth.currentUser;
+  //   if (currentUser == null) {
+  //     print('user is null');
+  //     return false;
+  //   }
+  //   if (currentUser.uid.isNotEmpty) {
+  //     return true;
+  //   } else {
+  //     return false;
+  //   }
+  // }
 
   @override
   Future<void> verifyPhoneNumber(String phoneNumber) async {

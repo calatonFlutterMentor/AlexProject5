@@ -1,4 +1,3 @@
-import 'package:calaton_firebase_auth/app/routing/route_constants.dart';
 import 'package:calaton_firebase_auth/domain/user/iuser.dart';
 
 import '../../../domain/user/iuser_repository.dart';
@@ -37,6 +36,5 @@ class LoginViewModel extends BaseChangeNotifier {
       await _userRepository.verifyPhoneNumber(_phoneNumber);
     }
     stopLoading();
-    // _navigationUtil.navigateToAndMakeRoot(RouteConstants.home);
   }
 }

@@ -1,4 +1,5 @@
 import 'package:calaton_firebase_auth/app/routing/inavigation_util.dart';
+import 'package:calaton_firebase_auth/app/services/auth_service.dart';
 import 'package:calaton_firebase_auth/data/repository/user_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -12,6 +13,7 @@ class ScreenFactory {
     return ChangeNotifierProvider<HomeViewModel>(
       create: (context) => HomeViewModel(
           navigationUtil: context.read<INavigationUtil>(),
+          authService: context.read<AuthService>(),
           userRepository: UserRepository()),
       child: Consumer<HomeViewModel>(
         builder: (context, model, child) => HomeScreen(viewModel: model),

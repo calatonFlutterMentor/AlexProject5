@@ -30,7 +30,7 @@ class NavigationUtil implements INavigationUtil {
   @override
   void navigateBackUntilNamed(String named) {
     //todo check
-    return navigatorKey.currentState!.popUntil((route) => false);
+    return navigatorKey.currentState!.popUntil(ModalRoute.withName(named));
   }
 
   @override

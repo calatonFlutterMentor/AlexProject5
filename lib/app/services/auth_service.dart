@@ -12,8 +12,12 @@ class AuthService {
       _userAuthStateStreamController;
   final StreamController<UserAuthState> _userAuthStateStreamController =
   StreamController.broadcast();
+  StreamSubscription<UserAuthState> get userAuthStateStreamSubscription =>
+      _userAuthStateStreamSubscription;
+  late StreamSubscription<UserAuthState> _userAuthStateStreamSubscription;
 
-  Stream<UserAuthState> authState() {
+  Stream<UserAuthState> authState() async* {
+   // _userAuthStateStreamController.close();
     // todo subscriptions & disposes
     Stream<UserAuthState> stream = _firebaseAuth.authStateChanges().map((user) {
       if (user == null) {
@@ -22,12 +26,16 @@ class AuthService {
        return UserAuthState.loggedIn;
       }
     });
-    stream.listen((event) {
+    _userAuthStateStreamSubscription = stream.listen((event) {
       _userAuthStateStreamController.add(event);
     });
-    return _userAuthStateStreamController.stream;
+    yield* _userAuthStateStreamController.stream;
+    _userAuthStateStreamSubscription.cancel();
   }
-
+  void closeStreamController(){
+    _userAuthStateStreamController.close();
+    print(_userAuthStateStreamController.isClosed);
+  }
   dynamic getUser() {
     return _firebaseAuth.currentUser;
   }

@@ -21,7 +21,8 @@ class App extends StatelessWidget {
         home: ChangeNotifierProvider<HomeViewModel>(
           create: (context) => HomeViewModel(
               navigationUtil: context.read<INavigationUtil>(),
-              userRepository: UserRepository()),
+              userRepository: UserRepository(),
+              authService: context.read<AuthService>()),
           child: Consumer<HomeViewModel>(
             builder: (context, model, child) {
               return StreamBuilder(
