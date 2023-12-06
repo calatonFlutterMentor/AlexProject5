@@ -1,3 +1,4 @@
+import 'package:calaton_firebase_auth/app/app_view_model.dart';
 import 'package:calaton_firebase_auth/app/routing/inavigation_util.dart';
 import 'package:calaton_firebase_auth/app/routing/navigation_util.dart';
 import 'package:calaton_firebase_auth/app/services/auth_service.dart';
@@ -22,7 +23,12 @@ void main() async {
         Provider.value(value: navigationUtil),
         Provider.value(value: authService),
       ],
-      child: const App(),
+      child: ChangeNotifierProvider<AppViewModel>(
+        create: (context) => AppViewModel(authService: authService),
+        child: Consumer<AppViewModel>(
+          builder: (context, model, child) => App(viewModel: model),
+        ),
+      ),
     ),
   );
 }

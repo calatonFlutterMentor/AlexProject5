@@ -4,7 +4,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import '../../domain/user/iuser.dart';
 import '../../domain/user/iuser_repository.dart';
 
-
 class UserRepository implements IUserRepository {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
@@ -18,11 +17,17 @@ class UserRepository implements IUserRepository {
   @override
   Future<IUser?> singUp(String email, String password) async {
     try {
-      var auth = await _firebaseAuth.createUserWithEmailAndPassword(
-          email: email, password: password);
-      return prefix.User(email:'kek', id:"007");
+      UserCredential userCredential = await _firebaseAuth
+          .createUserWithEmailAndPassword(email: email, password: password);
+      if (userCredential.user != null) {
+        return prefix.User(
+            email: userCredential.user!.email ?? 'no email',
+            id: userCredential.user!.uid);
+      }
+      return null;
     } catch (e) {
       print(e.toString());
+      throw Exception();
     }
   }
 

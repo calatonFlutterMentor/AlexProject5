@@ -5,7 +5,5 @@ abstract class IUserRepository {
 
   Future<void> logOut();
 
- // Future<bool> isSignedIn();
-
   Future<void> verifyPhoneNumber(String phoneNumber);
 }
