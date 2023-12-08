@@ -22,11 +22,13 @@ class AuthService {
     _subscription = stream.listen((event) {
       _streamController.add(event);
     });
+    print('_streamController has listener - ${_streamController.hasListener}');
     return _streamController.stream;
   }
 
   void closeStreamController() {
     _streamController.close();
+    print('_streamController is closed- ${_streamController.isClosed}');
   }
 
   void cancelSubscription() {

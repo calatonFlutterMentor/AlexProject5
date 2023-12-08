@@ -33,7 +33,7 @@ class _InputFieldState extends State<InputField> {
     return TextFormField(
       controller: controller,
       validator: (value) {
-        if (value!= null && value.length < 4) {
+        if (value!= null && value.length < 2) {
           return widget.errorMassage;
         } else {
           return null;

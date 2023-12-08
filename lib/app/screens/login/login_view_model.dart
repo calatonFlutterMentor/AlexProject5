@@ -16,6 +16,7 @@ class LoginViewModel extends BaseChangeNotifier {
   String _emailValue = '';
   String _passwordValue = '';
   String _phoneNumber = '';
+  String _codeFromSms = '';
 
   void updateEmailValue(String value) {
     _emailValue = value;
@@ -29,13 +30,17 @@ class LoginViewModel extends BaseChangeNotifier {
     _phoneNumber = value;
   }
 
+  void updateCodeFromSms(String value) {
+    _codeFromSms = value;
+  }
+
   Future<void> onLoginViaEmailPressed() async {
     startLoading();
     IUser? user = await _userRepository.singUp(_emailValue, _passwordValue);
     stopLoading();
   }
 
-   Future<void> onLoginViaPhonePressed() async {
+  Future<void> onLoginViaPhonePressed() async {
     startLoading();
     if (_phoneNumber.isNotEmpty) {
       await _userRepository.verifyPhoneNumber(_phoneNumber);
@@ -43,5 +48,11 @@ class LoginViewModel extends BaseChangeNotifier {
     stopLoading();
   }
 
-
+  Future<void> sendOtpCode() async {
+    startLoading();
+    if (_codeFromSms.isNotEmpty) {
+      await _userRepository.sendOtp(_codeFromSms);
+    }
+    stopLoading();
+  }
 }

@@ -9,6 +9,8 @@ class UserRepository implements IUserRepository {
 
   UserRepository();
 
+  String verificationId = "";
+
   @override
   Future<void> logOut() async {
     return await _firebaseAuth.signOut();
@@ -31,20 +33,6 @@ class UserRepository implements IUserRepository {
     }
   }
 
-  // @override
-  // Future<bool> isSignedIn() async {
-  //   var currentUser = _firebaseAuth.currentUser;
-  //   if (currentUser == null) {
-  //     print('user is null');
-  //     return false;
-  //   }
-  //   if (currentUser.uid.isNotEmpty) {
-  //     return true;
-  //   } else {
-  //     return false;
-  //   }
-  // }
-
   @override
   Future<void> verifyPhoneNumber(String phoneNumber) async {
     await _firebaseAuth.verifyPhoneNumber(
@@ -58,12 +46,20 @@ class UserRepository implements IUserRepository {
         }
       },
       codeSent: (String verificationId, int? resendToken) async {
-        String smsCode = '123456';
-        PhoneAuthCredential credential = PhoneAuthProvider.credential(
-            verificationId: verificationId, smsCode: smsCode);
-        await _firebaseAuth.signInWithCredential(credential);
+        this.verificationId = verificationId;
       },
       codeAutoRetrievalTimeout: (String verificationId) {},
     );
+  }
+
+  @override
+  Future<void> sendOtp(String otpCode) async {
+    try {
+      PhoneAuthCredential phoneAuthCredential = PhoneAuthProvider.credential(
+          verificationId: verificationId, smsCode: otpCode);
+      await _firebaseAuth.signInWithCredential(phoneAuthCredential);
+    } catch(e){
+      print(e);
+    }
   }
 }

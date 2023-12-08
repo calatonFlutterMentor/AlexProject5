@@ -6,4 +6,6 @@ abstract class IUserRepository {
   Future<void> logOut();
 
   Future<void> verifyPhoneNumber(String phoneNumber);
+
+  Future<void> sendOtp(String otpCode);
 }

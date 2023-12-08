@@ -13,6 +13,7 @@ class LoginScreen extends StatelessWidget {
     final formKeyEmail = GlobalKey<FormState>();
     final formKeyPassword = GlobalKey<FormState>();
     final formKeyPhone = GlobalKey<FormState>();
+    final formKeyOtp = GlobalKey<FormState>();
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -67,6 +68,18 @@ class LoginScreen extends StatelessWidget {
                     ),
                   ),
                 ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 10),
+                  child: Form(
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                    key: formKeyOtp,
+                    child: InputField(
+                      hintText: "otp",
+                      errorMassage: "otp",
+                      onValueChanged: viewModel.updateCodeFromSms,
+                    ),
+                  ),
+                ),
                 MainButton(
                   text: "Login via email password",
                   onPressedFunction: () async {
@@ -85,6 +98,16 @@ class LoginScreen extends StatelessWidget {
                     final isPhoneValid = formKeyPhone.currentState!.validate();
                     if (isPhoneValid) {
                       viewModel.onLoginViaPhonePressed();
+                    }
+                  },
+                ),
+                const SizedBox(height: 24),
+                MainButton(
+                  text: "send otp",
+                  onPressedFunction: () async {
+                    final isOtpValid = formKeyOtp.currentState!.validate();
+                    if (isOtpValid) {
+                      viewModel.sendOtpCode();
                     }
                   },
                 ),
