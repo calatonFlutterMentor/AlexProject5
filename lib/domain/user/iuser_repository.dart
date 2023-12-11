@@ -6,9 +6,9 @@ abstract class IUserRepository {
 
   Future<void> logOut();
 
-  Future<void> verifyPhoneNumber(String phoneNumber);
+  Future<void> verifyPhoneNumber(String phoneNumber, Function(String verificationId) updateVerificationId);
 
-  Future<void> sendOtp(String otpCode);
+  Future<void> sendOtp(String otpCode, String verificationId);
 
   Future<UserCredential> signInWithGoogle();
 }

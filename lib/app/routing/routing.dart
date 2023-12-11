@@ -33,9 +33,11 @@ class Routing {
   }
 
   static PageRoute _buildOtpScreen(RouteSettings settings) {
+    String verificationCode = settings.arguments as String;
+
     return MaterialPageRoute(
         builder: (context) {
-          return ScreenFactory.buildOtpScreen();
+          return ScreenFactory.buildOtpScreen(verificationCode);
         },
         settings: settings);
   }

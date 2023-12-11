@@ -7,12 +7,7 @@ import '../../../../routing/inavigation_util.dart';
 class OtpViewModel extends BaseChangeNotifier {
   final IUserRepository _userRepository;
   final INavigationUtil _navigationUtil;
-
-  OtpViewModel(
-      {required IUserRepository userRepository,
-      required INavigationUtil navigationUtil})
-      : _userRepository = userRepository,
-        _navigationUtil = navigationUtil;
+  final String _verificationCode;
 
   String _firstNumber = "";
   String _secondNumber = "";
@@ -20,6 +15,14 @@ class OtpViewModel extends BaseChangeNotifier {
   String _fourthNumber = "";
   String _fifthNumber = "";
   String _sixthNumber = "";
+
+  OtpViewModel(
+      {required IUserRepository userRepository,
+      required INavigationUtil navigationUtil,
+      required String verificationCode})
+      : _userRepository = userRepository,
+        _navigationUtil = navigationUtil,
+        _verificationCode = verificationCode;
 
   void updateFirstNumber(String value) {
     _firstNumber = value;
@@ -57,8 +60,8 @@ class OtpViewModel extends BaseChangeNotifier {
           "$_firstNumber$_secondNumber$_thirdNumber$_fourthNumber$_fifthNumber$_sixthNumber"
               .trim();
       print(otpCode);
-      await _userRepository.sendOtp(otpCode);
-      _navigationUtil.navigateToAndMakeRoot(RouteConstants.login);
+      await _userRepository.sendOtp(otpCode, _verificationCode);
+      // _navigationUtil.navigateToAndMakeRoot(RouteConstants.login);
     }
     stopLoading();
   }

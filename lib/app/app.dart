@@ -18,18 +18,27 @@ class App extends StatelessWidget {
       home: _buildBody(context),
     );
   }
+
   Widget _buildBody(BuildContext context) {
     return StreamBuilder(
       stream: viewModel.authStream,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          Widget screenFactory;
-          var map = {
-            UserAuthState.loggedIn: ScreenFactory.buildHomeScreen(),
-            UserAuthState.signedOut: ScreenFactory.buildPhoneVerificationScreen()
-          };
-          return screenFactory =
-              map[snapshot.data!] ?? ScreenFactory.buildPhoneVerificationScreen();
+          switch (snapshot.data) {
+            case UserAuthState.loggedIn:
+              // return Container(color: Colors.red);
+              return ScreenFactory.buildHomeScreen();
+            case UserAuthState.signedOut:
+            case null:
+              return ScreenFactory.buildPhoneVerificationScreen();
+          }
+          // Widget screenFactory = ScreenFactory.buildPhoneVerificationScreen();
+          // var map = {
+          //   UserAuthState.loggedIn: ScreenFactory.buildHomeScreen(),
+          //   UserAuthState.signedOut: ScreenFactory.buildPhoneVerificationScreen()
+          // };
+          // return screenFactory =
+          //     map[snapshot.data!] ?? ScreenFactory.buildPhoneVerificationScreen();
         } else {
           return ScreenFactory.buildPhoneVerificationScreen();
         }

@@ -34,8 +34,9 @@ class UserRepository implements IUserRepository {
   }
 
   @override
-  Future<void> verifyPhoneNumber(String phoneNumber) async {
+  Future<void> verifyPhoneNumber(String phoneNumber, Function(String verificationId) updateVerificationId) async {
     await _firebaseAuth.verifyPhoneNumber(
+      timeout: const Duration(minutes: 1),
       phoneNumber: phoneNumber,
       verificationCompleted: (PhoneAuthCredential credential) async {
         print(phoneNumber);
@@ -47,7 +48,7 @@ class UserRepository implements IUserRepository {
         }
       },
       codeSent: (String verificationId, int? resendToken) async {
-        this.verificationId = verificationId;
+        updateVerificationId(verificationId);
       },
       codeAutoRetrievalTimeout: (String verificationId) {
         print('time out');
@@ -56,11 +57,17 @@ class UserRepository implements IUserRepository {
   }
 
   @override
-  Future<void> sendOtp(String otpCode) async {
+  Future<void> sendOtp(String otpCode, String verificationId) async {
     try {
+      print('otp:$otpCode');
+      print('verificationId:$verificationId');
       PhoneAuthCredential phoneAuthCredential = PhoneAuthProvider.credential(
           verificationId: verificationId, smsCode: otpCode);
-      await _firebaseAuth.signInWithCredential(phoneAuthCredential);
+      UserCredential? userCredential = await _firebaseAuth.signInWithCredential(phoneAuthCredential).onError((error, stackTrace){
+        print('--------- ${error.toString()}');
+        throw Exception();
+      });
+      print('authed user phone - ${userCredential.user?.phoneNumber}');
     } catch (e) {
       print(e);
     }

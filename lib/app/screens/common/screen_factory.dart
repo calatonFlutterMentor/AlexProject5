@@ -25,11 +25,12 @@ class ScreenFactory {
     );
   }
 
-  static Widget buildOtpScreen() {
+  static Widget buildOtpScreen(String verificationCode) {
     return ChangeNotifierProvider<OtpViewModel>(
       create: (context) => OtpViewModel(
           navigationUtil: context.read<INavigationUtil>(),
-          userRepository: UserRepository()),
+          userRepository: UserRepository(),
+          verificationCode: verificationCode),
       child: Consumer<OtpViewModel>(
         builder: (context, model, child) => OtpScreen(viewModel: model),
       ),

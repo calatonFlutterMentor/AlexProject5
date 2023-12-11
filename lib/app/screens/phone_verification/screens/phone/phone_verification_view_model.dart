@@ -22,10 +22,13 @@ class PhoneVerificationViewModel extends BaseChangeNotifier {
   Future<void> onLoginViaPhonePressed() async {
     startLoading();
     if (_phoneNumber.isNotEmpty) {
-      await _userRepository.verifyPhoneNumber(_phoneNumber);
+      await _userRepository.verifyPhoneNumber(_phoneNumber, updateVerificationId);
       print(_phoneNumber);
-      _navigationUtil.navigateTo(RouteConstants.otpCode);
     }
     stopLoading();
+  }
+
+  void updateVerificationId(String verificationId){
+    _navigationUtil.navigateTo(RouteConstants.otpCode, data: verificationId);
   }
 }
