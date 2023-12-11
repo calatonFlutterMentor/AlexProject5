@@ -53,7 +53,9 @@ class UserRepository implements IUserRepository {
       codeAutoRetrievalTimeout: (String verificationId) {
         print('time out');
       },
-    );
+    ).onError((error, stackTrace){
+      print(error.toString());
+    });
   }
 
   @override

@@ -26,21 +26,16 @@ class App extends StatelessWidget {
         if (snapshot.hasData) {
           switch (snapshot.data) {
             case UserAuthState.loggedIn:
-              // return Container(color: Colors.red);
+              print('logged in');
               return ScreenFactory.buildHomeScreen();
             case UserAuthState.signedOut:
-            case null:
+              print('signed out');
               return ScreenFactory.buildPhoneVerificationScreen();
+            case null:
+              return Container(color: Colors.red);
           }
-          // Widget screenFactory = ScreenFactory.buildPhoneVerificationScreen();
-          // var map = {
-          //   UserAuthState.loggedIn: ScreenFactory.buildHomeScreen(),
-          //   UserAuthState.signedOut: ScreenFactory.buildPhoneVerificationScreen()
-          // };
-          // return screenFactory =
-          //     map[snapshot.data!] ?? ScreenFactory.buildPhoneVerificationScreen();
         } else {
-          return ScreenFactory.buildPhoneVerificationScreen();
+          return Container(color: Colors.green);
         }
       },
     );
