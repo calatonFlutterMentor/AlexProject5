@@ -12,8 +12,6 @@ class LoginScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final formKeyEmail = GlobalKey<FormState>();
     final formKeyPassword = GlobalKey<FormState>();
-    final formKeyPhone = GlobalKey<FormState>();
-    final formKeyOtp = GlobalKey<FormState>();
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -38,8 +36,15 @@ class LoginScreen extends StatelessWidget {
                     autovalidateMode: AutovalidateMode.onUserInteraction,
                     key: formKeyEmail,
                     child: InputField(
+                      keyBoardType: TextInputType.emailAddress,
+                      validator: (value) {
+                        if (value != null && value.length < 2) {
+                          return "Enter correct email";
+                        } else {
+                          return null;
+                        }
+                      },
                       hintText: "email",
-                      errorMassage: "Enter correct email",
                       onValueChanged: viewModel.updateEmailValue,
                     ),
                   ),
@@ -50,33 +55,16 @@ class LoginScreen extends StatelessWidget {
                     key: formKeyPassword,
                     autovalidateMode: AutovalidateMode.onUserInteraction,
                     child: InputField(
+                      keyBoardType: TextInputType.emailAddress,
+                      validator: (value) {
+                        if (value != null && value.length < 2) {
+                          return "Enter correct email";
+                        } else {
+                          return null;
+                        }
+                      },
                       hintText: "password",
-                      errorMassage: "Enter correct password",
                       onValueChanged: viewModel.updatePasswordValue,
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 10),
-                  child: Form(
-                    autovalidateMode: AutovalidateMode.onUserInteraction,
-                    key: formKeyPhone,
-                    child: InputField(
-                      hintText: "phone",
-                      errorMassage: "Enter correct phone",
-                      onValueChanged: viewModel.updatePhone,
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 10),
-                  child: Form(
-                    autovalidateMode: AutovalidateMode.onUserInteraction,
-                    key: formKeyOtp,
-                    child: InputField(
-                      hintText: "otp",
-                      errorMassage: "otp",
-                      onValueChanged: viewModel.updateCodeFromSms,
                     ),
                   ),
                 ),
@@ -91,24 +79,13 @@ class LoginScreen extends StatelessWidget {
                     }
                   },
                 ),
-                const SizedBox(height: 24),
-                MainButton(
-                  text: "Login via phone",
-                  onPressedFunction: () async {
-                    final isPhoneValid = formKeyPhone.currentState!.validate();
-                    if (isPhoneValid) {
-                      viewModel.onLoginViaPhonePressed();
-                    }
-                  },
+                const SizedBox(
+                  height: 24,
                 ),
-                const SizedBox(height: 24),
                 MainButton(
-                  text: "send otp",
+                  text: "Sing In with Google",
                   onPressedFunction: () async {
-                    final isOtpValid = formKeyOtp.currentState!.validate();
-                    if (isOtpValid) {
-                      viewModel.sendOtpCode();
-                    }
+                    await viewModel.onLoginWithGooglePressed();
                   },
                 ),
               ],

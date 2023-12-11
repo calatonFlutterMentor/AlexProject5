@@ -12,7 +12,28 @@
           "package_name": "com.example.calaton_firebase_auth"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "416115488340-h37i3ueid9qp3lsdskact0qlqlv4p6jk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.calaton_firebase_auth",
+            "certificate_hash": "e1e9a551bb5e7d5c63d20662e73f5a38f133ac21"
+          }
+        },
+        {
+          "client_id": "416115488340-soo6ru196j3dh8klud2tgvkpq8d35ujj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.calaton_firebase_auth",
+            "certificate_hash": "f5f221815026e657981fa549073f5ca22bdb93bb"
+          }
+        },
+        {
+          "client_id": "416115488340-0d5ohr5dol723gmkvo8l534egk50ppll.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyCMXjaxDejMqIE2OM-9o3VEzJJGRRMKXDc"
@@ -20,7 +41,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "416115488340-0d5ohr5dol723gmkvo8l534egk50ppll.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "416115488340-m56i6u6inli4prju8ibi1qkp22mfg136.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.calatonFirebaseAuth.RunnerTests"
+              }
+            }
+          ]
         }
       }
     }

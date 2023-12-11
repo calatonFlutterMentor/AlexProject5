@@ -18,24 +18,6 @@ class App extends StatelessWidget {
       home: _buildBody(context),
     );
   }
-
-  // Widget _buildBody(BuildContext context) {
-  //   return StreamBuilder(
-  //     stream: viewModel.authStream,
-  //     builder: (context, snapshot) {
-  //       if (snapshot.hasData) {
-  //         switch (snapshot.data!) {
-  //           case UserAuthState.loggedIn:
-  //             return ScreenFactory.buildHomeScreen();
-  //           case UserAuthState.signedOut:
-  //             return ScreenFactory.buildLogInScreen();
-  //         }
-  //       } else {
-  //         return ScreenFactory.buildLogInScreen();
-  //       }
-  //     },
-  //   );
-  // }
   Widget _buildBody(BuildContext context) {
     return StreamBuilder(
       stream: viewModel.authStream,
@@ -44,12 +26,12 @@ class App extends StatelessWidget {
           Widget screenFactory;
           var map = {
             UserAuthState.loggedIn: ScreenFactory.buildHomeScreen(),
-            UserAuthState.signedOut: ScreenFactory.buildLogInScreen()
+            UserAuthState.signedOut: ScreenFactory.buildPhoneVerificationScreen()
           };
           return screenFactory =
-              map[snapshot.data!] ?? ScreenFactory.buildLogInScreen();
+              map[snapshot.data!] ?? ScreenFactory.buildPhoneVerificationScreen();
         } else {
-          return ScreenFactory.buildLogInScreen();
+          return ScreenFactory.buildPhoneVerificationScreen();
         }
       },
     );

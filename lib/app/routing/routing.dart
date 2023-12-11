@@ -6,6 +6,10 @@ import '../screens/common/screen_factory.dart';
 class Routing {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
+      case RouteConstants.phoneVerification:
+        return _buildPhoneVerificationScreen(settings);
+      case RouteConstants.otpCode:
+        return _buildOtpScreen(settings);
       case RouteConstants.login:
         return _buildLoginScreen(settings);
       case RouteConstants.home:
@@ -13,11 +17,27 @@ class Routing {
       default:
         return MaterialPageRoute(
             builder: (_) => const Scaffold(
-              body: Center(
-                child: Text("Something went wrong!"),
-              ),
-            ));
+                  body: Center(
+                    child: Text("Something went wrong!"),
+                  ),
+                ));
     }
+  }
+
+  static PageRoute _buildPhoneVerificationScreen(RouteSettings settings) {
+    return MaterialPageRoute(
+        builder: (context) {
+          return ScreenFactory.buildPhoneVerificationScreen();
+        },
+        settings: settings);
+  }
+
+  static PageRoute _buildOtpScreen(RouteSettings settings) {
+    return MaterialPageRoute(
+        builder: (context) {
+          return ScreenFactory.buildOtpScreen();
+        },
+        settings: settings);
   }
 
   static PageRoute _buildLoginScreen(RouteSettings settings) {
@@ -35,5 +55,4 @@ class Routing {
         },
         settings: settings);
   }
-
 }

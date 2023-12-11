@@ -1,6 +1,6 @@
 import 'package:calaton_firebase_auth/data/model/user.dart' as prefix;
 import 'package:firebase_auth/firebase_auth.dart';
-
+import 'package:google_sign_in/google_sign_in.dart';
 import '../../domain/user/iuser.dart';
 import '../../domain/user/iuser_repository.dart';
 
@@ -38,6 +38,7 @@ class UserRepository implements IUserRepository {
     await _firebaseAuth.verifyPhoneNumber(
       phoneNumber: phoneNumber,
       verificationCompleted: (PhoneAuthCredential credential) async {
+        print(phoneNumber);
         await _firebaseAuth.signInWithCredential(credential);
       },
       verificationFailed: (FirebaseAuthException e) {
@@ -48,7 +49,9 @@ class UserRepository implements IUserRepository {
       codeSent: (String verificationId, int? resendToken) async {
         this.verificationId = verificationId;
       },
-      codeAutoRetrievalTimeout: (String verificationId) {},
+      codeAutoRetrievalTimeout: (String verificationId) {
+        print('time out');
+      },
     );
   }
 
@@ -58,8 +61,25 @@ class UserRepository implements IUserRepository {
       PhoneAuthCredential phoneAuthCredential = PhoneAuthProvider.credential(
           verificationId: verificationId, smsCode: otpCode);
       await _firebaseAuth.signInWithCredential(phoneAuthCredential);
-    } catch(e){
+    } catch (e) {
       print(e);
     }
+  }
+  @override
+  Future<UserCredential> signInWithGoogle() async {
+    // Trigger the authentication flow
+    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+
+    // Obtain the auth details from the request
+    final GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
+
+    // Create a new credential
+    final credential = GoogleAuthProvider.credential(
+      accessToken: googleAuth?.accessToken,
+      idToken: googleAuth?.idToken,
+    );
+
+    // Once signed in, return the UserCredential
+    return await _firebaseAuth.signInWithCredential(credential);
   }
 }
