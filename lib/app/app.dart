@@ -30,7 +30,7 @@ class App extends StatelessWidget {
               return ScreenFactory.buildHomeScreen();
             case UserAuthState.signedOut:
               print('signed out');
-              return ScreenFactory.buildPhoneVerificationScreen();
+              return ScreenFactory.buildLogInScreen();
             case null:
               return Container(color: Colors.red);
           }

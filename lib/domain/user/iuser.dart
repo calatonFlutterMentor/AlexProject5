@@ -6,10 +6,4 @@
     required this.id,
     required this.email,
   });
-
-  // static const IUser empty = IUser(
-  //   email: '',
-  //   password: '',
-  // );
-  // bool get isEmpty => this == IUser.empty;
 }

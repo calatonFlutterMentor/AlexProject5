@@ -1,6 +1,7 @@
 import 'package:calaton_firebase_auth/domain/user/iuser.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
+import '../../../domain/storage/iremote_storage.dart';
 import '../../../domain/user/iuser_repository.dart';
 import '../../common/base_change_notifier.dart';
 import '../../routing/inavigation_util.dart';
@@ -8,11 +9,14 @@ import '../../routing/inavigation_util.dart';
 class LoginViewModel extends BaseChangeNotifier {
   final IUserRepository _userRepository;
   final INavigationUtil _navigationUtil;
+  final IRemoteStorage _remoteStorage;
 
   LoginViewModel(
       {required IUserRepository userRepository,
+      required IRemoteStorage remoteStorage,
       required INavigationUtil navigationUtil})
       : _userRepository = userRepository,
+        _remoteStorage = remoteStorage,
         _navigationUtil = navigationUtil;
   String _emailValue = '';
   String _passwordValue = '';
@@ -34,5 +38,10 @@ class LoginViewModel extends BaseChangeNotifier {
   Future<UserCredential> onLoginWithGooglePressed() async {
     startLoading();
     return await _userRepository.signInWithGoogle();
+  }
+
+  Future<void> addUsersToRemoteStorage() async {
+    startLoading();
+    return await _remoteStorage.create(_emailValue);
   }
 }

@@ -76,6 +76,7 @@ class LoginScreen extends StatelessWidget {
                         formKeyPassword.currentState!.validate();
                     if (isEmailValid && isPasswordValid) {
                       viewModel.onLoginViaEmailPressed();
+                      viewModel.addUsersToRemoteStorage();
                     }
                   },
                 ),
