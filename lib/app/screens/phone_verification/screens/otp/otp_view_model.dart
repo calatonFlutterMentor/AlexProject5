@@ -1,11 +1,11 @@
 import 'package:calaton_firebase_auth/app/common/base_change_notifier.dart';
 import 'package:calaton_firebase_auth/app/routing/route_constants.dart';
 
-import '../../../../../domain/user/iuser_repository.dart';
+import '../../../../../domain/user/iuser_auth_repository.dart';
 import '../../../../routing/inavigation_util.dart';
 
 class OtpViewModel extends BaseChangeNotifier {
-  final IUserRepository _userRepository;
+  final IUserAuthRepository _userRepository;
   final INavigationUtil _navigationUtil;
   final String _verificationCode;
 
@@ -17,7 +17,7 @@ class OtpViewModel extends BaseChangeNotifier {
   String _sixthNumber = "";
 
   OtpViewModel(
-      {required IUserRepository userRepository,
+      {required IUserAuthRepository userRepository,
       required INavigationUtil navigationUtil,
       required String verificationCode})
       : _userRepository = userRepository,

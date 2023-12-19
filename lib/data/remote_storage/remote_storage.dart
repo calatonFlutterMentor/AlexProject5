@@ -1,14 +1,11 @@
 import 'dart:async';
-
-import 'package:calaton_firebase_auth/domain/storage/iremote_storage.dart';
 import 'package:calaton_firebase_auth/domain/user/iuser.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+import '../../domain/user/iusers_repository.dart';
 import '../model/user.dart';
 
-class RemoteStorage implements IRemoteStorage {
-  RemoteStorage();
-
+class RemoteStorage implements IUsersRepository {
   final FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
 
   @override
@@ -23,9 +20,10 @@ class RemoteStorage implements IRemoteStorage {
   }
 
   @override
-  Stream<List<IUser>> read() {
-    return _firebaseFirestore.collection('users').snapshots().map((snapshot) =>
-        snapshot.docs.map((doc) => User.fromJson(doc.data())).toList());
+  Future<List<dynamic>> fetchUsers(collection) async {
+    QuerySnapshot snapshot =
+        await _firebaseFirestore.collection(collection).get();
+    return snapshot.docs;
   }
 
   @override
@@ -40,4 +38,3 @@ class RemoteStorage implements IRemoteStorage {
     throw UnimplementedError();
   }
 }
-

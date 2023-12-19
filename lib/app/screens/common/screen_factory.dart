@@ -3,13 +3,13 @@ import 'package:calaton_firebase_auth/app/screens/phone_verification/screens/otp
 import 'package:calaton_firebase_auth/app/screens/phone_verification/screens/phone/phone_verification_screen.dart';
 import 'package:calaton_firebase_auth/app/services/auth_service.dart';
 import 'package:calaton_firebase_auth/data/remote_storage/remote_storage.dart';
-import 'package:calaton_firebase_auth/data/repository/user_repository.dart';
+import 'package:calaton_firebase_auth/data/repository/user_auth_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../services/remote_storage_service.dart';
-import '../home/home.dart';
+import '../../../data/repository/users_repository.dart';
+import '../home/home_screen.dart';
 import '../home/home_view_model.dart';
-import '../login/login.dart';
+import '../login/login_screen.dart';
 import '../login/login_view_model.dart';
 import '../phone_verification/screens/otp/otp_view_model.dart';
 import '../phone_verification/screens/phone/phone_verification_view_model.dart';
@@ -19,7 +19,7 @@ class ScreenFactory {
     return ChangeNotifierProvider<PhoneVerificationViewModel>(
       create: (context) => PhoneVerificationViewModel(
           navigationUtil: context.read<INavigationUtil>(),
-          userRepository: UserRepository()),
+          userRepository: UserAuthRepository()),
       child: Consumer<PhoneVerificationViewModel>(
         builder: (context, model, child) =>
             PhoneVerificationScreen(viewModel: model),
@@ -31,7 +31,7 @@ class ScreenFactory {
     return ChangeNotifierProvider<OtpViewModel>(
       create: (context) => OtpViewModel(
           navigationUtil: context.read<INavigationUtil>(),
-          userRepository: UserRepository(),
+          userRepository: UserAuthRepository(),
           verificationCode: verificationCode),
       child: Consumer<OtpViewModel>(
         builder: (context, model, child) => OtpScreen(viewModel: model),
@@ -44,8 +44,8 @@ class ScreenFactory {
       create: (context) => HomeViewModel(
         navigationUtil: context.read<INavigationUtil>(),
         authService: context.read<AuthService>(),
-        userRepository: UserRepository(),
-        remoteStorage: RemoteStorage(), remoteStorageService: RemoteStorageService(),
+        userRepository: UserAuthRepository(),
+        usersRepository: UsersRepository(),
       ),
       child: Consumer<HomeViewModel>(
         builder: (context, model, child) => HomeScreen(viewModel: model),
@@ -56,7 +56,7 @@ class ScreenFactory {
   static Widget buildLogInScreen() {
     return ChangeNotifierProvider<LoginViewModel>(
       create: (context) => LoginViewModel(
-        userRepository: UserRepository(),
+        userRepository: UserAuthRepository(),
         navigationUtil: context.read<INavigationUtil>(),
         remoteStorage: RemoteStorage(),
       ),

@@ -1,7 +1,7 @@
 import 'package:calaton_firebase_auth/domain/user/iuser.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-abstract class IUserRepository {
+abstract class IUserAuthRepository {
   Future<IUser?> singUp(String email, String password);
 
   Future<void> logOut();

@@ -2,32 +2,28 @@ import 'dart:async';
 
 import 'package:calaton_firebase_auth/app/routing/inavigation_util.dart';
 import 'package:calaton_firebase_auth/domain/user/iuser.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import '../../../domain/storage/iremote_storage.dart';
-import '../../../domain/user/iuser_repository.dart';
+import 'package:calaton_firebase_auth/domain/user/iusers_repository.dart';
+import '../../../data/repository/users_repository.dart';
+import '../../../domain/user/iuser_auth_repository.dart';
 import '../../common/base_change_notifier.dart';
 import '../../services/auth_service.dart';
-import '../../services/remote_storage_service.dart';
 
 class HomeViewModel extends BaseChangeNotifier {
-  final IUserRepository _userRepository;
+  final IUserAuthRepository _userRepository;
   final INavigationUtil _navigationUtil;
   final AuthService _authService;
-  final IRemoteStorage _remoteStorage;
-  final RemoteStorageService _remoteStorageService;
+  final UsersRepository _usersRepository;
 
   HomeViewModel(
       {required INavigationUtil navigationUtil,
-      required IUserRepository userRepository,
-      required IRemoteStorage remoteStorage,
-      required RemoteStorageService remoteStorageService,
+      required IUserAuthRepository userRepository,
+      required UsersRepository usersRepository,
       required AuthService authService})
       : _navigationUtil = navigationUtil,
         _authService = authService,
-        _remoteStorage = remoteStorage,
-        _userRepository = userRepository,
-        _remoteStorageService = remoteStorageService;
-  Stream<QuerySnapshot> get remoteStorageStream => _remoteStorageService.addSubscription();
+        _usersRepository = usersRepository,
+        _userRepository = userRepository;
+
   Future<void> onLogOutButtonPressed() async {
     await _userRepository.logOut();
     // dispose викликається сам по собі, коли його викликаєш ти - то триггіриш розірвання котракту з скріном та підкапотні еррори
@@ -35,15 +31,17 @@ class HomeViewModel extends BaseChangeNotifier {
     // dispose();
   }
 
-  Stream<List<IUser>> buildUsersList() {
-    print("buildUsersList");
-    return _remoteStorage.read() as Stream<List<IUser>>;
-  }
+  List<IUser> get userList => _userList;
 
-  @override
-  void dispose() {
-    _remoteStorageService.closeStreamController();
-    _remoteStorageService.cancelSubscription();
-    super.dispose();
+  List<IUser> _userList = [];
+
+  Future<void> fetchUsersList() async {
+    print("buildUsersList");
+    _usersRepository.fetchUsers().then((user) {
+      print("buildUsersList -second  ${user.length}");
+      _userList.addAll(user);
+      notifyListeners();
+    });
+    print("buildUsersList -third -${_userList.length}");
   }
 }

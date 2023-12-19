@@ -2,12 +2,12 @@ import 'package:calaton_firebase_auth/data/model/user.dart' as prefix;
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import '../../domain/user/iuser.dart';
-import '../../domain/user/iuser_repository.dart';
+import '../../domain/user/iuser_auth_repository.dart';
 
-class UserRepository implements IUserRepository {
+class UserAuthRepository implements IUserAuthRepository {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
-  UserRepository();
+  UserAuthRepository();
 
   String verificationId = "";
 
